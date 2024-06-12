@@ -6,7 +6,7 @@ export class Timer extends Container{
 
     private timerText: BitmapText;
     private ticker: Ticker = new Ticker();
-    private timer: TimeKeeper = new TimeKeeper();
+    public timer: TimeKeeper = new TimeKeeper();
 
     // time
     private minutes: number = 0;
@@ -25,7 +25,7 @@ export class Timer extends Container{
 
     update(): void{
         this.timer.update();
-
+        
         this.minutes = Math.floor(this.timer.totalTime / 59);
         this.seconds = Math.round(this.timer.totalTime % 59)
         
@@ -33,12 +33,12 @@ export class Timer extends Container{
 
     }
 
-    public startTimer(){this.ticker.start();}
+    public startTimer(){this.ticker.start(); }
     public stopTimer(){this.ticker.stop();}
     public restartTimer()
     {
-        this.ticker.stop();
-        this.timer.totalTime = 0;
-        this.ticker.start();
+        this.stopTimer()
+        this.timer = new TimeKeeper();
+        this.startTimer();
     }
 }
