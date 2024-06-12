@@ -174,7 +174,7 @@ export class VaultLocked extends Container implements IScene {
         // Shadow
         const handleShadow = Sprite.from('handleShadow');
         handleShadow.position.x -= 90;
-        handleShadow.pivot.set(-90, 0);
+        handleShadow.pivot.set(-68, 15);
         handleShadow.anchor.set(0.6, 0.45)
         door.addChild(handleShadow);
 
@@ -185,12 +185,14 @@ export class VaultLocked extends Container implements IScene {
         handleShadow.eventMode = 'dynamic';
         handleShadow.cursor = 'pointer'
 
-        handleShadow.addEventListener('rightclick', () => this.rotateWheelCounterClockwise());
-        handleShadow.addEventListener('click', () => this.rotateWheelClockwise());
+        handleShadow.addEventListener('wheel', (e) => {
+            if (e.deltaY > 0) {this.rotateWheelClockwise()}
+            else              {this.rotateWheelCounterClockwise()}
+        });
 
         //Handle
         const handle = Sprite.from('handle');
-        handle.anchor.set(0.63, 0.5);
+        handle.anchor.set(0.6, 0.48);
         handleShadow.addChild(handle);
 
         this.handle = handleShadow;

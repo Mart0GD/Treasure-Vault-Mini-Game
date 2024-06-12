@@ -16,10 +16,9 @@ export class Timer extends Container{
         super();
         this.timerText = TextGenerator.generateText("00:00",'Play-Regular',size, color);
 
-        this.addChild(this.timerText)
-        this.cursor = 'pointer'
+        this.addChild(this.timerText);
 
-        this.ticker.stop()
+        this.ticker.stop();
         this.ticker.add(() => this.update());
     }
 

@@ -42,5 +42,3 @@ export class Code {
         return this.directions
     }
 }
-
-export default Combination

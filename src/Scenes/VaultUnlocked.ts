@@ -18,6 +18,7 @@ export class VaultUnlocked extends Container implements IScene {
     private timerForRestart: TimeKeeper;
     private closeDoorStarted = false;
 
+    private background: Sprite;
     private closedDoor: Sprite;
     private openDoor: Sprite;
 
@@ -28,6 +29,7 @@ export class VaultUnlocked extends Container implements IScene {
         this.timerForRestart = new TimeKeeper();
         this.closedDoor = new Sprite();
         this.openDoor = new Sprite();
+        this.background = new Sprite();
 
     }
 
@@ -38,13 +40,12 @@ export class VaultUnlocked extends Container implements IScene {
 
         this.closedDoor = Sprite.from('door');
         this.openDoor = Sprite.from('doorOpen');
+        this.background = Sprite.from('bg');
         this.createSprites();
     }
 
     update(): void {
-        if (Math.round(this.timerForRestart.totalTime % 59) == 10) {
-            this.closeDoor();
-        }
+        if (Math.round(this.timerForRestart.totalTime % 59) == 10) {this.closeDoor();}
 
         this.timerForRestart.update();
     }
@@ -83,11 +84,11 @@ export class VaultUnlocked extends Container implements IScene {
         })
 
         const doorHandle = Sprite.from('handle');
-        doorHandle.anchor.set(0.63, 0.5);
+        doorHandle.anchor.set(0.6, 0.48);
 
         const doorHandleShadow = Sprite.from('handleShadow');
         doorHandleShadow.position.x -= 90;
-        doorHandleShadow.pivot.set(-90, 0);
+        doorHandleShadow.pivot.set(-68, 15);
         doorHandleShadow.anchor.set(0.6, 0.45)
 
         this.closedDoor.addChild(doorHandleShadow);
@@ -99,24 +100,23 @@ export class VaultUnlocked extends Container implements IScene {
     private createSprites(): void {
 
         // Background
-        const bg = Sprite.from('bg');
-        Helper.resize(bg, window.innerWidth, window.innerHeight);
-        bg.anchor.set(0.5);
-        this.addChild(bg);
+        Helper.resize(this.background, window.innerWidth, window.innerHeight);
+        this.background.anchor.set(0.5);
+        this.addChild(this.background);
 
-        window.addEventListener('resize', () => Helper.resize(bg, window.innerWidth, window.innerHeight));
+        window.addEventListener('resize', () => Helper.resize(this.background, window.innerWidth, window.innerHeight));
         this.createGlitters()
 
         // #region Vault Door
 
         this.closedDoor.anchor.set(0.5);
-        bg.addChild(this.closedDoor);
+        this.background.addChild(this.closedDoor);
 
         const openDoorShadow = Sprite.from('doorOpenShadow');
         openDoorShadow.anchor.set(0.5);
         openDoorShadow.alpha = 0;
         openDoorShadow.position.x = 1500;
-        bg.addChild(openDoorShadow);
+        this.background.addChild(openDoorShadow);
 
         this.openDoor.anchor.set(0.5);
         this.openDoor.position.x = -100;
@@ -125,12 +125,12 @@ export class VaultUnlocked extends Container implements IScene {
         // Animations
         gsap.to(this.closedDoor, {
             pixi: { alpha: 0 },
-            duration: 1.5,
+            duration: 2,
         })
 
         gsap.to(openDoorShadow, {
             pixi: { alpha: 1 },
-            duration: 2
+            duration: 3
         })
 
         //#endregion
@@ -145,52 +145,49 @@ export class VaultUnlocked extends Container implements IScene {
     private createGlitters(): void{
         const glitterOne = Sprite.from('blink');
         glitterOne.anchor.set(0.5);
-        glitterOne.scale.set(0.2);
-        glitterOne.position.set(770, 470)
+        glitterOne.position.set(-50, -45)
         gsap.fromTo(glitterOne, {
-            pixi: {scale: 0.2, rotation: 0},
+            pixi: {scale: 0.9, rotation: 0},
             duration: 0,
             repeat: Infinity
         }, {
-            pixi: {scale: 0.17, rotation: 5},
-            duration: 1.8,
+            pixi: {scale: 0.6, rotation: 5},
+            duration: 2.5,
             repeat: Infinity,
             yoyo: true
         })
 
         const glitterTwo = Sprite.from('blink');
         glitterTwo.anchor.set(0.5);
-        glitterTwo.scale.set(0.2);
-        glitterTwo.position.set(650,460)
+        glitterTwo.position.set(150,350)
         gsap.fromTo(glitterTwo, {
-            pixi: {scale: 0.2, rotation: 0},
+            pixi: {scale: 1, rotation: 0},
             duration: 0,
             repeat: Infinity
         }, {
-            pixi: {scale: 0.17, rotation: -8},
-            duration: 2,
+            pixi: {scale: 0.5, rotation: -8},
+            duration: 2.5,
             repeat: Infinity,
             yoyo: true
         })
 
         const glitterThree = Sprite.from('blink');
         glitterThree.anchor.set(0.5);
-        glitterThree.scale.set(0.2);
-        glitterThree.position.set(830, 580)
+        glitterThree.position.set(-480, 0)
         gsap.fromTo(glitterThree, {
-            pixi: {scale: 0.2, rotation: 0},
+            pixi: {scale: 0.92, rotation: 0},
             duration: 0,
             repeat: Infinity
         }, {
-            pixi: {scale: 0.17, rotation: -10},
-            duration: 1.5,
+            pixi: {scale: 0.5, rotation: -10},
+            duration: 2,
             repeat: Infinity,
             yoyo: true
         })
 
-        this.addChild(glitterOne);
-        this.addChild(glitterTwo);
-        this.addChild(glitterThree);
+        this.background.addChild(glitterOne);
+        this.background.addChild(glitterTwo);
+        this.background.addChild(glitterThree);
     }
 
 }
