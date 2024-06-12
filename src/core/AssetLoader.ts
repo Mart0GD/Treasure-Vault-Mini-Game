@@ -14,9 +14,9 @@ const assetUrls: string[] =
         'static/VaultLocked/Images/door.png',
         'static/VaultLocked/Images/handle.png',
         'static/VaultLocked/Images/handleShadow.png',
-        'static/VaultOpen/Images/bg.png',
         'static/VaultOpen/Images/doorOpen.png',
         'static/VaultOpen/Images/doorOpenShadow.png',
+        'static/VaultOpen/Images/blink.png'
     ]
 
 export class AssetLoader {

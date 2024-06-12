@@ -29,7 +29,7 @@ export class Timer extends Container{
         this.minutes = Math.floor(this.timer.totalTime / 59);
         this.seconds = Math.round(this.timer.totalTime % 59)
         
-        this.timerText.text = this.seconds > 9 ? `0${this.minutes}:${this.seconds}` : `0${this.minutes}:0${this.seconds}`;
+        this.timerText.text = this.getTimer;
 
     }
 
@@ -40,5 +40,9 @@ export class Timer extends Container{
         this.stopTimer()
         this.timer = new TimeKeeper();
         this.startTimer();
+    }
+
+    public get getTimer(){
+        return this.seconds > 9 ? `0${this.minutes}:${this.seconds}` : `0${this.minutes}:0${this.seconds}`
     }
 }

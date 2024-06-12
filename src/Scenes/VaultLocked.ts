@@ -5,27 +5,31 @@ import { AssetLoader } from "../core/AssetLoader"
 import { gsap } from "gsap";
 import { PixiPlugin } from "gsap/PixiPlugin";
 import { Timer } from "../prefabs/Timer";
-import { Code } from "../misc/Code";
+import { Code } from "../prefabs/Code";
 import { Input } from "../Input/Input";
 import { SceneManager } from "../core/SceneManager";
 import { VaultUnlocked } from "./VaultUnlocked";
 import { Helper } from "../misc/Helper";
+import { Globals } from "../core/Globals";
 
 export class VaultLocked extends Container implements IScene {
 
     private currentSteps: number;
     private combinationsCounter: number;
 
-
-    private handle: Sprite = new Sprite();
-    private timer: Timer = new Timer(64, 0xff0000);
+    private handle: Sprite;
+    private timer: Timer 
     private code: Code;
 
     public constructor() {
         super();
-
         console.log('Super duper secret code 🤫');
+
         this.code = new Code();
+        this.timer = new Timer(64, 0xff0000);
+        this.handle = new Sprite();
+        Globals.timer = this.timer;
+
         this.currentSteps = 0;
         this.combinationsCounter = 0;
     }
@@ -41,6 +45,13 @@ export class VaultLocked extends Container implements IScene {
         document.addEventListener('keydown', (e) => this.checkCurrentPass(e), { capture: true })
     }
 
+    update(): void {
+        if (Input.isKeyboardButtondown.get('1')) {
+            this.timer.stopTimer();
+            const nextScene = new VaultUnlocked();
+            SceneManager.changeScene(nextScene);
+        }
+    }
 
     //#region Game Logic    
 
@@ -64,7 +75,6 @@ export class VaultLocked extends Container implements IScene {
 
         for (const combination of this.code.getCombinations) {
             if (!combination.trigger) { break; }
-            console.log(combination.trigger);
             
             neededSteps = 
             combination.direction == this.code.getDirections[0]
@@ -76,8 +86,8 @@ export class VaultLocked extends Container implements IScene {
     }
 
     private checkFinalPass(): void {
-        this.code.getCombinations.forEach(x => console.log(x.completed))
         if (this.code.getCombinations.every(combination => combination.completed)) {
+            this.timer.stopTimer();
             const nextScene = new VaultUnlocked();
             SceneManager.changeScene(nextScene); 
             return;
