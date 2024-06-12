@@ -1,13 +1,15 @@
 import { Container, Sprite } from "pixi.js";
 import * as PIXY from "pixi.js";
-import { IScene } from "../core/scene";
+import { IScene } from "../core/IScene";
 import { AssetLoader } from "../core/AssetLoader"
 import { gsap } from "gsap";
 import { PixiPlugin } from "gsap/PixiPlugin";
+import { Timer } from "../prefabs/Timer";
 
 export class VaultLocked extends Container implements IScene {
 
     private handle: Sprite = new Sprite();
+    private timer: Timer = new Timer(64, 0xff0000);
 
     public constructor() {
         super();
@@ -19,7 +21,20 @@ export class VaultLocked extends Container implements IScene {
         PixiPlugin.registerPIXI(PIXY);
 
         this.createSprites();
+        this.timer.startTimer();
+        document.addEventListener('keydown',(e) => this.checkPass(e) ,{once: true})
     }
+
+    //#region  game logic
+
+    private checkPass(e: KeyboardEvent): void{
+        if(e.code != 'Enter') return;
+
+        console.log('pass registered');
+        
+    }
+
+    //#endregion
 
     //#region  rotation
     private rotateWheelClockwise() {
@@ -43,7 +58,6 @@ export class VaultLocked extends Container implements IScene {
     }
     //#endregion
 
-
     //#region Sprites
     private createSprites(): void {
         window.addEventListener('resize', () => {
@@ -60,6 +74,7 @@ export class VaultLocked extends Container implements IScene {
         const door = Sprite.from('door')
         door.anchor.set(0.5);
         bg.addChild(door);
+        
 
         // Shadow
         const handleShadow = Sprite.from('handleShadow');
@@ -68,8 +83,12 @@ export class VaultLocked extends Container implements IScene {
         handleShadow.anchor.set(0.6, 0.45)
         door.addChild(handleShadow);
 
-        handleShadow.interactive = true;
+        //timer
+        door.addChild(this.timer);
+        this.timer.position.set(-1260,-180)
+
         handleShadow.eventMode = 'dynamic';
+        handleShadow.cursor = 'pointer'
 
         handleShadow.addEventListener('rightclick', () => this.rotateWheelCounterClockwise());
         handleShadow.addEventListener('click', () => this.rotateWheelClockwise());
