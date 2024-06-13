@@ -4,20 +4,20 @@ Welcome to Treasure Vault, an exciting browser-based game developed using PixiJS
 Getting Started
 To run this game locally on your machine, follow these simple steps:
 
-Clone the Repository
+  1. Clone the Repository
 
 bash
 Copy code
 git clone https://github.com/Mart0GD/Treasure-Vault-Mini-Game.git
 cd vault-cracker
 
-Install Dependencies
+  2. Install Dependencies
 
 terminal
 Copy code
 npm install
 
-Start Webpack
+  3. Start Webpack
 
 bash
 Copy code
