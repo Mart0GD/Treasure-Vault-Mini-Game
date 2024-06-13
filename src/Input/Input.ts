@@ -11,8 +11,6 @@ export class Input {
         document.addEventListener('keydown', Input.keyDown)
         document.addEventListener('keyup', Input.keyUp)
         document.addEventListener('mousemove', Input.trackMouse);
-
-        document.addEventListener('contextmenu', (e) => e.preventDefault())
     }
 
     private static mouseDown(e: MouseEvent): void{
