@@ -11,7 +11,7 @@ export class Code {
 
     constructor() {
         this.generateCode();
-        console.log(this.combinations.map(x => `${x.steps}:${x.direction}`).join(";\n"));
+        console.log(this.combinations.map(x => `${x.steps}:${x.direction}`).join("\n"));
     }
 
     private generateCode() {
