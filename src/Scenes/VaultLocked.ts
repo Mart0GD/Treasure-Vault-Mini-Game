@@ -46,6 +46,8 @@ export class VaultLocked extends Container implements IScene {
     }
 
     update(): void {
+
+        //Debug enter final scene with button 1
         if (Input.isKeyboardButtondown.get('1')) {
             this.timer.stopTimer();
             const nextScene = new VaultUnlocked();
@@ -61,6 +63,8 @@ export class VaultLocked extends Container implements IScene {
 
         this.combinationsCounter++;
         currentCombination.trigger = true;
+        console.log('code entered!');
+        
         if (currentCombination && this.currentSteps == this.getNeededSteps()) {
             currentCombination.completed = true;
         }
@@ -87,6 +91,8 @@ export class VaultLocked extends Container implements IScene {
 
     private checkFinalPass(): void {
         if (this.code.getCombinations.every(combination => combination.completed)) {
+            console.log('right combination entered  - Good Job! 👍');
+            
             this.timer.stopTimer();
             const nextScene = new VaultUnlocked();
             SceneManager.changeScene(nextScene); 
@@ -96,33 +102,33 @@ export class VaultLocked extends Container implements IScene {
         this.refreshVault();
     }
 
-    private refreshVault() {
-        //console.clear();
+    private async refreshVault() {
+        console.clear();
 
+        console.log('WRONG CODE!!!');
         console.log('Told ya it was super duper secret 😜');
         this.currentSteps = 0;
         this.combinationsCounter = 0
         this.timer.stopTimer();
         this.handle.eventMode = 'none'
 
-        gsap.fromTo(this.handle, {
+        await gsap.fromTo(this.handle, {
             pixi: { rotation: this.handle.rotation },
             duration: 0
         }, {
             pixi: { rotation: 3000 },
-            duration: 3,
-            onComplete: () => {
-                gsap.to(this.handle, {
-                    pixi: { rotation: 0 },
-                    duration: 3,
-                    onComplete: () => {
-                        this.timer.restartTimer()
-                        this.handle.eventMode = 'dynamic';
-                        this.code = new Code();
-                    }
-                });
-            }
+            duration: 3
         })
+
+        gsap.to(this.handle, {
+            pixi: { rotation: 0 },
+            duration: 3
+        })
+        .then(() => {
+            this.timer.restartTimer()
+            this.handle.eventMode = 'dynamic';
+            this.code = new Code();
+        });
 
     }
 
@@ -160,10 +166,10 @@ export class VaultLocked extends Container implements IScene {
         //Background
         const bg = Sprite.from('bg');
         bg.anchor.set(0.5, 0.5);
-        Helper.resize(bg, window.innerWidth, window.innerHeight);
+        Helper.resize(bg, window.outerWidth, window.outerHeight);
         this.addChild(bg);
 
-        window.addEventListener('resize', () => Helper.resize(bg, window.innerWidth, window.innerHeight));
+        window.addEventListener('resize', () => Helper.resize(bg, window.outerWidth, window.outerHeight));
 
         //Door
         const door = Sprite.from('door')

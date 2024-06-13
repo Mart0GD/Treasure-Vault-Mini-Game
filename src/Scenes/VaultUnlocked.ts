@@ -50,38 +50,10 @@ export class VaultUnlocked extends Container implements IScene {
         this.timerForRestart.update();
     }
 
-    private closeDoor(): void {
+    private async closeDoor(): Promise<void> {
         if (this.closeDoorStarted) return;1
         this.removeChildren(1,4)
-
-        gsap.to(this.closedDoor, {
-            pixi: { alpha: 1 },
-            duration: 2,
-        })
-
-        gsap.to(this.openDoor.parent, {
-            pixi: { alpha: 0 },
-            duration: 1,
-            onComplete: () => {
-                gsap.fromTo(doorHandleShadow, {
-                    pixi: { rotation: doorHandleShadow.rotation },
-                    duration: 0
-                }, {
-                    pixi: { rotation: 3000 },
-                    duration: 3,
-                    onComplete: () => {
-                        gsap.to(doorHandleShadow, {
-                            pixi: { rotation: 0 },
-                            duration: 3,
-                            onComplete: () => {
-                                console.clear();
-                                SceneManager.changeScene(new VaultLocked());
-                            }
-                        });
-                    }
-                })
-            }
-        })
+        this.closeDoorStarted = true;
 
         const doorHandle = Sprite.from('handle');
         doorHandle.anchor.set(0.6, 0.48);
@@ -91,20 +63,46 @@ export class VaultUnlocked extends Container implements IScene {
         doorHandleShadow.pivot.set(-68, 15);
         doorHandleShadow.anchor.set(0.6, 0.45)
 
+        gsap.to(this.closedDoor, {
+            pixi: { alpha: 1 },
+            duration: 2,
+        })
+
         this.closedDoor.addChild(doorHandleShadow);
         doorHandleShadow.addChild(doorHandle);
 
-        this.closeDoorStarted = true;
+        await gsap.to(this.openDoor.parent, {
+            pixi: { alpha: 0 },
+            duration: 1,
+        })
+        
+        await gsap.fromTo(doorHandleShadow, {
+            pixi: { rotation: doorHandleShadow.rotation },
+            duration: 0
+        }, {
+            pixi: { rotation: 3000 },
+            duration: 3,
+        })
+
+        gsap.to(doorHandleShadow, {
+            pixi: { rotation: 0 },
+            duration: 3
+        })
+        .then(() => {
+            console.clear();
+            SceneManager.changeScene(new VaultLocked());
+        });
+
     }
 
     private createSprites(): void {
 
         // Background
-        Helper.resize(this.background, window.innerWidth, window.innerHeight);
+        Helper.resize(this.background, window.outerWidth, window.outerHeight);
         this.background.anchor.set(0.5);
         this.addChild(this.background);
 
-        window.addEventListener('resize', () => Helper.resize(this.background, window.innerWidth, window.innerHeight));
+        window.addEventListener('resize', () => Helper.resize(this.background, window.outerWidth, window.outerHeight));
         this.createGlitters()
 
         // #region Vault Door
