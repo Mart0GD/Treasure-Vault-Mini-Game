@@ -29,6 +29,14 @@ To run this game locally on your machine, follow these simple steps:
 - **Objective:** Open the vault by cracking the secret code.
 - **Hint:** The code is hidden within the browser console. Use your detective skills to find and enter it correctly.
 
+Sure, here is the revised version of the section with corrections:
+
+## How to Play
+
+- Use the scroll wheel to turn the vault wheel either clockwise (by scrolling down) or counterclockwise (by scrolling up).
+- When you have reached your desired position, press **Enter** to enter the combination.
+- When all three combinations have been entered, the game will evaluate their correctness.
+
 ## Technologies Used
 
 - **PixiJS:** For rendering high-performance 2D graphics.
