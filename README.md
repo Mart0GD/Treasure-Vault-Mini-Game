@@ -9,7 +9,7 @@ To run this game locally on your machine, follow these simple steps:
 
 1. **Clone the Repository**
    ```bash
-   git clone https://github.com/yourusername/vault-cracker.git
+   git clone https://github.com/Mart0GD/Treasure-Vault-Mini-Game.git
    ```
 
 2. **Install Dependencies in **VS Code** or your prefered code editor**
@@ -28,8 +28,6 @@ To run this game locally on your machine, follow these simple steps:
 
 - **Objective:** Open the vault by cracking the secret code.
 - **Hint:** The code is hidden within the browser console. Use your detective skills to find and enter it correctly.
-
-Sure, here is the revised version of the section with corrections:
 
 ## How to Play
 
