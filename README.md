@@ -12,7 +12,7 @@ To run this game locally on your machine, follow these simple steps:
    git clone https://github.com/yourusername/vault-cracker.git
    ```
 
-2. **Install Dependencies**
+2. **Install Dependencies in **VS Code** or your prefered code editor**
    ```bash
    npm install
    ```
