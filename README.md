@@ -9,7 +9,7 @@ To run this game locally on your machine, follow these simple steps:
 
 1. **Clone the Repository**
    ```bash
-   git clone https://github.com/yourusername/vault-cracker.git
+   git clone https://github.com/Mart0GD/Treasure-Vault-Mini-Game.git
    ```
 
 2. **Install Dependencies in **VS Code** or your prefered code editor**
